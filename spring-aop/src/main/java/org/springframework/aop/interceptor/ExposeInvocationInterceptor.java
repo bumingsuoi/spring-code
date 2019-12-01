@@ -87,7 +87,9 @@ public final class ExposeInvocationInterceptor implements MethodInterceptor, Pri
 
 	@Override
 	public Object invoke(MethodInvocation mi) throws Throwable {
+		// 保证多线程下的稳定性
 		MethodInvocation oldInvocation = invocation.get();
+		// 线程共享MethodInvocation
 		invocation.set(mi);
 		try {
 			return mi.proceed();

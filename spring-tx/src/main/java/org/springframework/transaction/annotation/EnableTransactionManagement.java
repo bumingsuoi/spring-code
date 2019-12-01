@@ -149,6 +149,7 @@ import org.springframework.core.Ordered;
  * @see ProxyTransactionManagementConfiguration
  * @see org.springframework.transaction.aspectj.AspectJTransactionManagementConfiguration
  */
+// 在容器中导入了ProxyTransactionManagementConfiguration和InfrastructureAdvisorAutoProxyCreator
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

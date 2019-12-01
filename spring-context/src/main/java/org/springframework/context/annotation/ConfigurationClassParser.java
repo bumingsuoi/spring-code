@@ -252,6 +252,7 @@ class ConfigurationClassParser {
 		while (sourceClass != null);
 
 		// 将BeanDefinition放入到一个configurationClasses中
+		// Spring Boot自动配置类也是在此被放入到configurationClasses中
 		this.configurationClasses.put(configClass, configClass);
 	}
 

@@ -30,6 +30,7 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
  * @since 3.0.1
  * @see org.springframework.context.annotation.ConfigurationClassPostProcessor
  */
+// BeanDefinitionRegistryPostProcessor会在BeanFactoryPostProcessor之前执行
 // Spring的拓展点之一
 // 该接口拓展了BeanFactoryPostProcessor，Spring会在BeanFactoryPostProcessor执行之前执行
 // 其中自定义的BeanFactoryPostProcessor和BeanDefinitionRegistryPostProcessor会在前面执行。

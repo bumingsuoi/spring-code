@@ -688,6 +688,9 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 		wac.setServletContext(getServletContext());
 		wac.setServletConfig(getServletConfig());
 		wac.setNamespace(getNamespace());
+		// new ContextRefreshListener()这个监听器很重要
+		// 是用来监听Spring容器的refresh事件
+		// 即Spring容器refresh完成后会回调该监听器，执行相关的策略
 		wac.addApplicationListener(new SourceFilteringListener(wac, new ContextRefreshListener()));
 
 		// The wac environment's #initPropertySources will be called in any case when the context
@@ -700,6 +703,8 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 
 		postProcessWebApplicationContext(wac);
 		applyInitializers(wac);
+
+		// SpringMVC会自动调用refresh方法
 		wac.refresh();
 	}
 
@@ -1184,6 +1189,8 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 	 * ApplicationListener endpoint that receives events from this servlet's WebApplicationContext
 	 * only, delegating to {@code onApplicationEvent} on the FrameworkServlet instance.
 	 */
+	// 监听WebApplicationContext的refresh事件
+	// 完成DispatcherServlet初始化策略
 	private class ContextRefreshListener implements ApplicationListener<ContextRefreshedEvent> {
 
 		@Override

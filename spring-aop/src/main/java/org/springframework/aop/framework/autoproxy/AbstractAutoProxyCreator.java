@@ -245,12 +245,13 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		Object cacheKey = getCacheKey(beanClass, beanName);
 
 		if (!StringUtils.hasLength(beanName) || !this.targetSourcedBeans.contains(beanName)) {
+			// 已经被创建过了，所以不需要再次进行增强
 			if (this.advisedBeans.containsKey(cacheKey)) {
 				return null;
 			}
 			// 判断当前对象是否需要进行aop增强
-			// 如果某个类实现了一下接口，Spring这会认为该类不需要进行增强
-			// Advice、Pointcut、Advisor、AopInfrastructureBean
+			// 如果某个类实现了以下接口，Spring这会认为该类不需要进行增强：
+			// Advice、Pointcut、Advisor、AopInfrastructureBean或者是否为切面
 			if (isInfrastructureClass(beanClass) || shouldSkip(beanClass, beanName)) {
 				this.advisedBeans.put(cacheKey, Boolean.FALSE);
 				return null;
@@ -349,8 +350,10 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 
 		// Create proxy if we have advice.
 		// 如果有通知的话，则创建aop代理
+		// 获取当前bean所有的通知方法
 		Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName, null);
 		if (specificInterceptors != DO_NOT_PROXY) {
+			// 记录下已经增强过的bean
 			this.advisedBeans.put(cacheKey, Boolean.TRUE);
 			Object proxy = createProxy(
 					bean.getClass(), beanName, specificInterceptors, new SingletonTargetSource(bean));
@@ -465,6 +468,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		}
 
 		Advisor[] advisors = buildAdvisors(beanName, specificInterceptors);
+		// 将增强器（通知方法）添加到代理工厂中
 		proxyFactory.addAdvisors(advisors);
 		proxyFactory.setTargetSource(targetSource);
 		customizeProxyFactory(proxyFactory);
@@ -474,6 +478,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 			proxyFactory.setPreFiltered(true);
 		}
 
+		// 利用代理工厂创建AOP代理
 		return proxyFactory.getProxy(getProxyClassLoader());
 	}
 

@@ -20,14 +20,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.lang.Nullable;
 
 /**
- * BeanPostProcessor是Spring框架提供的扩展点（不止一个）
- * 通过BeanPostProcessor，使程序员可以插手bean实例化过程，减轻BeanFactory的负担
- * 当BeanPostProcessor执行完成之后，bean才会被放入到Spring的singletonObjectMap中
- * 值得说明的是这个接口可以设置多个，Spring会依次执行（自定义）；而Spring内部的BeanPostProcessor则是Spring手动加入到容器中
- * 经典场景：
- * 比如aop就是Spring在bean实例化完成后将切面逻辑织入到bean实例中，
- * 生命周期回调@PostConstruct
- *
  * Factory hook that allows for custom modification of new bean instances,
  * e.g. checking for marker interfaces or wrapping them with proxies.
  *
@@ -48,11 +40,16 @@ import org.springframework.lang.Nullable;
  * @see ConfigurableBeanFactory#addBeanPostProcessor
  * @see BeanFactoryPostProcessor
  */
+// BeanPostProcessor是Spring框架提供的扩展点（不止一个）
+// 通过BeanPostProcessor，使程序员可以插手bean实例化过程，减轻BeanFactory的负担
+// 当BeanPostProcessor执行完成之后，bean才会被放入到Spring的singletonObjectMap中
+// 值得说明的是这个接口可以设置多个，Spring会依次执行（自定义）；而Spring内部的BeanPostProcessor则是Spring手动加入到容器中
+// 经典场景：
+// 比如aop就是Spring在bean实例化完成后将切面逻辑织入到bean实例中，
+// 生命周期回调@PostConstruct
 public interface BeanPostProcessor {
 
 	/**
-	 * 在bean Initialization初始化之前执行
-	 *
 	 * Apply this BeanPostProcessor to the given new bean instance <i>before</i> any bean
 	 * initialization callbacks (like InitializingBean's {@code afterPropertiesSet}
 	 * or a custom init-method). The bean will already be populated with property values.
@@ -65,6 +62,7 @@ public interface BeanPostProcessor {
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet
 	 */
+	// 在bean Initialization初始化之前执行
 	@Nullable
 	default Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 		return bean;
@@ -90,8 +88,9 @@ public interface BeanPostProcessor {
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet
 	 * @see org.springframework.beans.factory.FactoryBean
-	 * 在bean Initialization初始化之后后执行
+	 *
 	 */
+	// 在bean Initialization初始化之后后执行
 	@Nullable
 	default Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 		return bean;

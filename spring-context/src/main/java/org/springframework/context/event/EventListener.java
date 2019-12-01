@@ -63,6 +63,7 @@ import org.springframework.core.annotation.AliasFor;
  * @since 4.2
  * @see EventListenerMethodProcessor
  */
+// 利用EventListenerMethodProcessor处理器进行解析
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

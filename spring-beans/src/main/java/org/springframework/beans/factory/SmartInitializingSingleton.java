@@ -53,6 +53,7 @@ public interface SmartInitializingSingleton {
 	 * and not for any other bean scope either. Carefully use it for beans
 	 * with the intended bootstrap semantics only.
 	 */
+	// 在单实例bean创建完成之后触发
 	void afterSingletonsInstantiated();
 
 }

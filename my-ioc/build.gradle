@@ -13,4 +13,9 @@ repositories {
 
 dependencies {
     compile project(":spring-context")
+    compile project(":spring-aspects")
+    compile project(":spring-jdbc")
+    compile project(":spring-tx")
+    compile group: 'com.alibaba', name: 'druid', version: '1.1.21'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.28.0'
 }

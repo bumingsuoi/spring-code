@@ -829,6 +829,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		// Trigger initialization of all non-lazy singleton beans...
 		// 触发所有非延迟加载的单实例bean的初始化，主要步骤是调用getBean()
+		// 创建所有的singleton bean
 		for (String beanName : beanNames) {
 			// 将父类bd进行合并
 			// xml的情况下会使用到
@@ -862,6 +863,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 
 		// Trigger post-initialization callback for all applicable beans...
+		// 所有bean创建完成，检查bean是否为SmartInitializingSingleton接口的实现类
+		// 如果是的话则调用afterSingletonsInstantiated方法
 		for (String beanName : beanNames) {
 			Object singletonInstance = getSingleton(beanName);
 			if (singletonInstance instanceof SmartInitializingSingleton) {
